@@ -1,6 +1,11 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+# Local IDE and macOS metadata
+.idea/
+.DS_Store
+*.DotSettings.user
+
 # Compiled Object files
 *.slo
 *.lo
@@ -35,6 +40,7 @@
 *.xcodeproj
 *.xcworkspace
 *.sln
+*.slnx
 *.suo
 *.opensdf
 *.sdf
