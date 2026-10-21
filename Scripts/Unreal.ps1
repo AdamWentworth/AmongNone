@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('open', 'build', 'generate', 'doctor')]
+    [ValidateSet('open', 'build', 'generate', 'doctor', 'setup')]
     [string]$Action = 'open'
 )
 
@@ -75,6 +75,32 @@ foreach ($required in @($buildTool, $editor)) {
 }
 Write-Host "Project: $project"
 Write-Host "Using Unreal Engine $versionNumber (association $association): $engineRoot"
+if ($Action -eq 'setup') {
+    # Register the shared version ID for UnrealVersionSelector without changing the project.
+    $associationKey = 'HKCU:\SOFTWARE\Epic Games\Unreal Engine\Builds'
+    New-Item -Path $associationKey -Force | Out-Null
+    $registeredEntry = Get-ItemProperty -LiteralPath $associationKey -Name $association -ErrorAction SilentlyContinue
+    $registered = $null
+    if ($null -ne $registeredEntry) {
+        $registeredProperty = $registeredEntry.PSObject.Properties[$association]
+        if ($null -ne $registeredProperty) {
+            $registered = $registeredProperty.Value
+        }
+    }
+    if (-not [string]::IsNullOrWhiteSpace($registered)) {
+        $registeredBuild = Join-Path $registered 'Engine\Build\Build.version'
+        if (Test-Path -LiteralPath $registeredBuild -PathType Leaf) {
+            $registeredRoot = (Resolve-Path -LiteralPath $registered).Path
+            if (-not [string]::Equals($registeredRoot, $engineRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+                throw "Engine association $association already points to $registeredRoot. Resolve that registration before setup."
+            }
+        }
+    }
+    New-ItemProperty -LiteralPath $associationKey -Name $association -Value $engineRoot -PropertyType String -Force | Out-Null
+    Write-Host "Registered Unreal Engine $association to $engineRoot for this Windows user."
+    Write-Host 'Quit all Unreal Editor instances, then reopen AmongNone from the project browser.'
+    exit 0
+}
 if ($Action -eq 'doctor') {
     Write-Host 'Engine and project checks passed. Run build to validate the native compiler and SDK.'
     exit 0

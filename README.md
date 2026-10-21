@@ -68,6 +68,26 @@ a wrong engine never silently falls back to another installation.
 The `open`, `build`, `generate`, and `doctor` commands do not change engine
 registration or the shared project file.
 
+## One-time Windows setup for a project-browser association prompt
+
+Some Windows engine installs are discoverable by the repository scripts but are
+registered only under a machine-specific GUID. Unreal's project browser then
+cannot resolve the shared 5.8 association and may offer to create a copy.
+From the repository root, run this in PowerShell:
+
+    powershell -ExecutionPolicy Bypass -File .\Scripts\Unreal.ps1 setup
+
+The command validates the selected engine and adds the shared 5.8 ID to the
+current user's Unreal engine registry. It preserves existing GUID registrations,
+does not edit AmongNone.uproject or engine files, and refuses to replace a
+5.8 registration that points to another installed engine. Repeating setup
+with the same engine is safe. If the engine is in a nonstandard location, set
+UE_ENGINE_ROOT first as described above.
+
+**Quit all Unreal Editor instances and reopen AmongNone from the project
+browser after setup.** Windows installations already registered under the
+shared 5.8 ID do not need this step.
+
 ## One-time macOS setup for managed engine installations
 
 An engine installed outside Epic's Launcher may be registered under a local
