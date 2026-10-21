@@ -1,0 +1,13 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Force text files to keep standard LF endings to prevent git churn between OSes
+*.cpp text eol=lf
+*.h text eol=lf
+*.cs text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.ini text eol=lf
+*.uproject text eol=lf
+*.uplugin text eol=lf
