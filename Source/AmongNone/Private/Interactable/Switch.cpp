@@ -11,6 +11,10 @@ ASwitch::ASwitch()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void ASwitch::Interact(AActor* Interactor, UPrimitiveComponent* HitComponent)
+{
+}
+
 // Called when the game starts or when spawned
 void ASwitch::BeginPlay()
 {

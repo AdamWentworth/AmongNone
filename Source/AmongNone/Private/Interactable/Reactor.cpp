@@ -11,6 +11,10 @@ AReactor::AReactor()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void AReactor::Interact(AActor* Interactor, UPrimitiveComponent* HitComponent)
+{
+}
+
 // Called when the game starts or when spawned
 void AReactor::BeginPlay()
 {

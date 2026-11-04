@@ -3,17 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Interactable.h"
 #include "GameFramework/Actor.h"
 #include "EscapePod.generated.h"
 
 UCLASS()
-class AMONGNONE_API AEscapePod : public AActor
+class AMONGNONE_API AEscapePod : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
 	AEscapePod();
+	
+	virtual void Interact(AActor* Interactor, UPrimitiveComponent* HitComponent) override;
 
 protected:
 	// Called when the game starts or when spawned
