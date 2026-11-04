@@ -19,6 +19,9 @@ enum class EItemType : uint8
 	Potion UMETA(DisplayName = "Potion"),
 	Wrench UMETA(DisplayName = "Wrench"),
 	CoolantCanister UMETA(DisplayName = "CoolantCanister"),
+	PowerRegulator UMETA(DisplayName = "PowerRegulator"),
+	FuelLineConnector UMETA(DisplayName = "FuelLineConnector"),
+	Trap UMETA(DisplayName = "Trap"),
 };
 
 USTRUCT(BlueprintType)
