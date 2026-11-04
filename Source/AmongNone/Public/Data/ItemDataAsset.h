@@ -17,6 +17,8 @@ enum class EItemType : uint8
 {
 	Relic UMETA(DisplayName = "Relic"),
 	Potion UMETA(DisplayName = "Potion"),
+	Wrench UMETA(DisplayName = "Wrench"),
+	CoolantCanister UMETA(DisplayName = "CoolantCanister"),
 };
 
 USTRUCT(BlueprintType)

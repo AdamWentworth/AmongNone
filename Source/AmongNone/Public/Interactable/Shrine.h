@@ -22,6 +22,10 @@ public:
 	void Activate();
 
 	bool bIsActive = false;
+	
+	bool bIsPowered = false;
+	
+	bool bIsRepaired = false;
 
 	virtual void Interact(AActor* Interactor, UPrimitiveComponent* HitComponent) override;
 
