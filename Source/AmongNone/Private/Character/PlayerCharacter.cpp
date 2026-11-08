@@ -68,7 +68,7 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 {
 	const FVector2D Axis = Value.Get<FVector2D>();
 	AddControllerYawInput(Axis.X * MouseLookSensitivity);
-	AddControllerPitchInput(-Axis.Y * MouseLookSensitivity);
+	AddControllerPitchInput(Axis.Y * MouseLookSensitivity);
 }
 
 void APlayerCharacter::LookGamepad(const FInputActionValue& Value)
