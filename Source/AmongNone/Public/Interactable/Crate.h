@@ -8,6 +8,8 @@
 #include "Crate.generated.h"
 
 class UItemDataAsset;
+class UStaticMeshComponent;
+class USkeletalMeshComponent;
 
 UCLASS()
 class AMONGNONE_API ACrate : public AActor, public IInteractable

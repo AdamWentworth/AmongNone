@@ -6,6 +6,9 @@
 #include "UObject/Interface.h"
 #include "Interactable.generated.h"
 
+class AActor;
+class UPrimitiveComponent;
+
 // This class does not need to be modified.
 UINTERFACE()
 class UInteractable : public UInterface

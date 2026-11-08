@@ -9,6 +9,7 @@
 
 class UItemDataAsset;
 class UPointLightComponent;
+class UStaticMeshComponent;
 
 UCLASS()
 class AMONGNONE_API AShrine : public AActor, public IInteractable
