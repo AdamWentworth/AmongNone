@@ -36,7 +36,7 @@ protected:
 	TObjectPtr<UInputAction> LookGamepadAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (ClampMin = "0"))
-	float MouseLookSensitivity = 0.15f;
+	float MouseLookSensitivity = 0.69f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input", meta = (ClampMin = "0"))
 	float GamepadLookRate = 90.0f;
