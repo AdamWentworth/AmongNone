@@ -56,6 +56,9 @@ SourceArt/**/*.tga
 Binaries/*
 Plugins/**/Binaries/*
 
+# RiderLink installed locally by JetBrains Rider
+/Plugins/Developer/RiderLink/
+
 # Builds
 Build/*
 
