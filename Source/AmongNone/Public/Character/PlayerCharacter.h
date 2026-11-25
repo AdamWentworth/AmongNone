@@ -7,6 +7,8 @@
 class UCameraComponent;
 class UInputAction;
 class USpringArmComponent;
+class UHealthComponent;
+class UInventoryComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -18,6 +20,19 @@ public:
 	APlayerCharacter();
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	
+	// // Access gameplay components
+	// UFUNCTION(BlueprintPure, Category = "Components")
+	// UHealthComponent* GetHealthComponent() const
+	// {
+	// 	return HealthComponent;
+	// }
+	//
+	// UFUNCTION(BlueprintPure, Category = "Components")
+	// UInventoryComponent* GetInventoryComponent() const
+	// {
+	// 	return InventoryComponent;
+	// }
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
@@ -25,6 +40,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	TObjectPtr<UCameraComponent> FollowCamera;
+	
+	// // Gameplay components
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	// TObjectPtr<UHealthComponent> HealthComponent;
+	//
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	// TObjectPtr<UInventoryComponent> InventoryComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;

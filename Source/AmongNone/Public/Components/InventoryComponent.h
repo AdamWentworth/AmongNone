@@ -6,8 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
-
 class UItemDataAsset;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -25,6 +25,10 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
 	int32 Capacity = 20;
+	
+	// Maximum number of different item types
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory")
+	int32 MaxUniqueItemTypes = 4;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	TArray<TObjectPtr<UItemDataAsset>> Items;
@@ -47,5 +51,9 @@ public:
 	int32 GetQuantity(UItemDataAsset* TargetItem) const;
 
 	UFUNCTION(BlueprintPure, Category = "Inventory")
-	TArray<UItemDataAsset*> GetItems() const { return TArray<UItemDataAsset*>(Items); };
+	TArray<UItemDataAsset*> GetItems() const;
+	
+	// Returns each different item only once
+	UFUNCTION(BlueprintPure, Category = "Inventory")
+	TArray<UItemDataAsset*> GetUniqueItems() const;
 };
