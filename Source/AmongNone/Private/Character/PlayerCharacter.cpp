@@ -2,11 +2,14 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/InventoryComponent.h"
 #include "EnhancedInputComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "InputActionValue.h"
+#include "DrawDebugHelpers.h"
+#include "Interactable/Interactable.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -28,6 +31,8 @@ APlayerCharacter::APlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -47,6 +52,10 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		if (LookGamepadAction)
 		{
 			Input->BindAction(LookGamepadAction, ETriggerEvent::Triggered, this, &APlayerCharacter::LookGamepad);
+		}
+		if (InteractAction)
+		{
+			Input->BindAction(InteractAction, ETriggerEvent::Completed, this, &APlayerCharacter::Interact);
 		}
 	}
 }
@@ -77,4 +86,42 @@ void APlayerCharacter::LookGamepad(const FInputActionValue& Value)
 	const float Scale = GamepadLookRate * GetWorld()->GetDeltaSeconds();
 	AddControllerYawInput(Axis.X * Scale);
 	AddControllerPitchInput(-Axis.Y * Scale);
+}
+
+void APlayerCharacter::Interact()
+{
+	FVector StartLocation;
+	FRotator ViewRotation;
+	GetActorEyesViewPoint(StartLocation, ViewRotation);
+
+	const FVector EndLocation = StartLocation + ViewRotation.Vector() * InteractDistance;
+
+	FHitResult HitResult;
+	FCollisionQueryParams TraceParams;
+	TraceParams.AddIgnoredActor(this);
+
+	const bool bHit = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		StartLocation,
+		EndLocation,
+		FQuat::Identity,
+		ECC_Visibility,
+		FCollisionShape::MakeSphere(InteractRadius),
+		TraceParams);
+
+	if (bDrawInteractDebug)
+	{
+		DrawDebugSphere(GetWorld(), bHit ? HitResult.Location : EndLocation, InteractRadius, 12,
+			bHit ? FColor::Green : FColor::Red, false, 2.0f);
+	}
+
+	if (!bHit) return;
+
+	AActor* HitActor = HitResult.GetActor();
+	if (!HitActor) return;
+
+	if (IInteractable* Interactable = Cast<IInteractable>(HitActor))
+	{
+		Interactable->Interact(this, HitResult.GetComponent());
+	}
 }
